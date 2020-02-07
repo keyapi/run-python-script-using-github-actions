@@ -1,9 +1,9 @@
-name: 'Hostloc Auto Get Points'
+name: 'Auto run at 3'
 
 on:
   push:
   schedule:
-    - cron: '0 17 * * *'
+    - cron: '0 3 * * *'
 
 jobs:
   get_points:
@@ -11,13 +11,15 @@ jobs:
     steps:
     - name: 'Checkout codes'
       uses: actions/checkout@v2
-    - name: 'Set python'
+    - name: 'Setup python'
       uses: actions/setup-python@v1
       with:
         python-version: '3.x'
     - name: 'Install dependencies'
-      run: python -m pip install --upgrade requests
-    - name: 'Get points'
+      run: |
+        python -m pip install --upgrade pip 
+        pip install -r requirements.txt
+    - name: 'Run script'
       env:
         HOSTLOC_USERNAME: ${{ secrets.HOSTLOC_USERNAME }}
         HOSTLOC_PASSWORD: ${{ secrets.HOSTLOC_PASSWORD }}
